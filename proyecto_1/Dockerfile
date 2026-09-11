@@ -22,9 +22,9 @@ COPY requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 #Copiamos todos los archivos
-COPY ..
+COPY . .
 
-#Documentación de pierto
+#Documentación de puerto
 
 EXPOSE 8080
 
