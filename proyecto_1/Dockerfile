@@ -15,7 +15,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 #Copiar solo el requirements
 
-COPY requirements.txt
+COPY requirements.txt .
 
 #Instalamos las librerías
 
