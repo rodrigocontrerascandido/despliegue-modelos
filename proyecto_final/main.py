@@ -7,7 +7,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
 # Antes de subir a Github era: from proyecto_final.esquema import Cliente
-from proyecto_final.esquema import Cliente
+from esquema import Cliente
 
 # Antes de subir a Github era: NOMBRE_BUNDLE = "proyecto_final/modelo_clic_anuncio.joblib"
 NOMBRE_BUNDLE = "modelo_clic_anuncio.joblib"
