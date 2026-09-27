@@ -1,0 +1,20 @@
+{
+    "model_version": "1.0.0",
+    "fecha_entrenamiento_utc": "2026-09-18T00:29:18.073582+00:00",
+    "dataset": "heart.csv",
+    "dataset_sha256": "c733088c563da97ab04ba10bba6ab743df2199824f375e37f26d559477719b14",
+    "sklearn_version": "1.9.0",
+    "parametros": {
+        "C": 1.0,
+        "random_state": 42,
+        "test_size": 0.2
+    },
+    "metricas": {
+        "accuracy": 0.7419,
+        "precision_chd": 0.625,
+        "recall_chd": 0.625,
+        "f1_chd": 0.625,
+        "roc_auc": 0.8176,
+        "n_test": 93
+    }
+}

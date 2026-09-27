@@ -1,0 +1,23 @@
+artifact_path: file:C:/Users/Rodrigo/Documents/Python - Grow Up/Despliegue de Modelos/Curso_Despliegue_Modelos/proyecto_1/mlruns/1/models/m-e9716bb68aee4552bc327291310db248/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.skops
+    predict_fn: predict
+    python_version: 3.12.10
+  sklearn:
+    code: null
+    pickled_model: model.skops
+    serialization_format: skops
+    sklearn_version: 1.9.0
+    skops_trusted_types: null
+mlflow_version: 3.16.1
+model_id: m-e9716bb68aee4552bc327291310db248
+model_size_bytes: 28127
+model_uuid: m-e9716bb68aee4552bc327291310db248
+prompts: null
+run_id: 4e6695b6175047c6884002023aba10d0
+utc_time_created: '2026-09-18 01:09:37.477793'

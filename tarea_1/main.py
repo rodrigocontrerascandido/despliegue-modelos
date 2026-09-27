@@ -6,6 +6,9 @@ import pandas as pd
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 
+from tarea_1.esquema import Cliente
+
+
 NOMBRE_BUNDLE = "tarea_1/modelo_churn.joblib"
 
 estado_servicio = {"bundle": None}
@@ -17,7 +20,6 @@ async def lifespan(app: FastAPI):
     print("Bundle cargado correctamente")
     yield
     estado_servicio["bundle"] = None
-
 
 app = FastAPI(
     title="API - Servicio de Pronóstico de Cancelación de Clientes",
@@ -31,7 +33,7 @@ class ClienteInput(BaseModel):
     gasto_mensual: float = Field(..., description="Gastos mensuales del cliente"),
     visitas_ultimo_mes: int = Field(..., description="Número de visitas del cliente en el último mes"),
     dias_desde_ultima_visita: int = Field(..., description="Número de días desde la última visita del cliente"),
-    tickets_soporte: Literal['Sí', 'No'] = Field(..., description="Si cliente ha contactado al soporte técnico"),
+    tickets_soporte: int = Field(..., description="Número de veces que el cliente ha contactado al soporte técnico"),
     plan: Literal['Básico', 'Estándar', 'Premium'] = Field(..., description="Tipo de plan del cliente"),
     metodo_pago: Literal['Tarjeta de crédito', 'Efectivo', 'Transferencia bancaria'] = Field(..., description="Método de pago del cliente")
     descuento_activo: int = Field(..., description="Si el cliente tiene un descuento activo"),
@@ -41,7 +43,6 @@ class ClienteOutput(BaseModel):
     probabilidad: float
     riesgo: str
 
-
 @app.get("/") #Usamos metodo GET para traer informacion
 def estado():
     return {
@@ -49,11 +50,10 @@ def estado():
         "modelo_cargado": estado_servicio["bundle"] is not None
     }
 
-
 #Predecir
 @app.post("/predecir", response_model=ClienteOutput)
-def predecir(cliente: ClienteInput):
-
+def predecir(cliente: Cliente):
+    
     #Validar el modelo
     bundle = estado_servicio["bundle"]
 
@@ -62,11 +62,17 @@ def predecir(cliente: ClienteInput):
 
     fila = cliente.model_dump()
 
+  
+
     X_nuevo = pd.DataFrame([fila])[bundle["columnas"]]
     
     prediccion = bundle["pipeline"].predict(X_nuevo)[0]
     probabilidad = bundle["pipeline"].predict_proba(X_nuevo)[0, 1]
 
-    return {
-        ""
-    }
+    #Devolver resultados
+    return ClienteOutput(
+        cancelo_predicho=int(prediccion),
+        probabilidad=round(probabilidad,4),
+        riesgo="Alto" if prediccion >= 0.5 else "Medio" if prediccion >= 0.4 else "Bajo"
+    )
+
